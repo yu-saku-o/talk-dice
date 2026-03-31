@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>トークダイス🎲 by MARRYELL</title>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+  <!-- LIFF SDK (コメントアウト解除してLIFF IDを設定してください) -->
+  <!-- <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script> -->
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <h1>🎲 トークダイス</h1>
+    <p>サイコロを振ってトークテーマを決めよう！</p>
+  </header>
+
+  <!-- 3D Dice -->
+  <div class="dice-area" id="dice-area">
+    <canvas id="dice-canvas"></canvas>
+    <p class="tap-hint" id="tap-hint">タップしてサイコロを振ろう！</p>
+  </div>
+
+  <!-- Theme card -->
+  <div class="theme-card empty" id="theme-card">
+    <span class="theme-emoji" id="theme-emoji"></span>
+    <p class="theme-text" id="theme-text">サイコロをタップして\nトークテーマを出してみよう！</p>
+    <span class="sheet-badge" id="sheet-badge" style="display:none;">📋 シートを見ながら話そう！</span>
+  </div>
+
+  <!-- Roll button -->
+  <button class="roll-btn" id="roll-btn">🎲 サイコロを振る！</button>
+
+  <script src="themes.js"></script>
+  <script src="app.js"></script>
+
+  <!--
+  LIFF初期化コード（本番環境でコメントアウト解除）
+  <script>
+    liff.init({ liffId: 'YOUR_LIFF_ID' })
+      .then(() => { console.log('LIFF initialized'); })
+      .catch((err) => { console.error('LIFF init error', err); });
+  </script>
+  -->
+
+</body>
+</html>
