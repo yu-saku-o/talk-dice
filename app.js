@@ -6,6 +6,7 @@
 
   const ROLL_MS = 1600;
   const QUICK_MS = 900;
+  const SCROLL_DELAY_MS = 1000;
   const RECENT_MAX = 12; // avoid repeating the last N themes (N = half the pool, max 12)
   const FACE_POS = ['front', 'right', 'back', 'left', 'top', 'bottom'];
   // Cube rotation [x, y] (deg) that brings each face to the front
@@ -40,7 +41,10 @@
   const state = {
     level: store.get('level', 1) === 2 ? 2 : 1,
     cat: store.get('cat', 'all'),
-    recent: store.get('recent', []),
+    recent: (function () {
+      const r = store.get('recent', []);
+      return Array.isArray(r) ? r.filter((id) => Number.isFinite(id)) : [];
+    })(),
     rolling: false,
     rot: { x: 0, y: 0 },
   };
@@ -98,6 +102,8 @@
     syncControls();
   });
 
+  let scrollTimer;
+
   // ── Theme picking (avoid recent history) ──────────────────────
   function pickTheme() {
     let pool = THEMES.filter((t) => t.level === state.level && (state.cat === 'all' || t.cat === state.cat));
@@ -152,6 +158,12 @@
     const instant = reduceMotion.matches;
     const theme = pickTheme();
     state.rolling = true;
+    clearTimeout(scrollTimer);
+    // e.g. "pass" pressed on the card: bring the dice back into view so the landing is visible
+    const stageRect = diceWrap.getBoundingClientRect();
+    if (stageRect.top < 0 || stageRect.bottom > window.innerHeight) {
+      diceWrap.scrollIntoView({ behavior: instant ? 'auto' : 'smooth', block: 'center' });
+    }
     rollBtn.disabled = true;
     passBtn.disabled = true;
 
@@ -196,10 +208,14 @@
     void result.offsetWidth;
     if (!instant) result.classList.add('pop');
 
-    const rect = result.getBoundingClientRect();
-    if (rect.top > window.innerHeight * 0.55 || rect.bottom > window.innerHeight) {
-      result.scrollIntoView({ behavior: instant ? 'auto' : 'smooth', block: 'start' });
-    }
+    // Let the landed face stay visible for a moment before bringing the card into view
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const rect = result.getBoundingClientRect();
+      if (rect.top > window.innerHeight * 0.55 || rect.bottom > window.innerHeight) {
+        result.scrollIntoView({ behavior: instant ? 'auto' : 'smooth', block: 'start' });
+      }
+    }, instant ? 0 : SCROLL_DELAY_MS);
   }
 
   let toastTimer;

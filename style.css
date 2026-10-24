@@ -54,7 +54,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .deco svg { position: absolute; }
 .deco-heart { animation: float 4s ease-in-out infinite; }
 .deco-spark { animation: twinkle 2.8s ease-in-out infinite; }
-.d1 { left: 6%;  top: 11%; width: 20px; height: 20px; color: rgba(255, 127, 114, 0.45); }
+.d1 { left: 5%;  top: 2%; width: 20px; height: 20px; color: rgba(255, 127, 114, 0.45); }
 .d2 { right: 8%; top: 24%; width: 14px; height: 14px; color: rgba(255, 127, 114, 0.40); animation-delay: -1.5s; }
 .d3 { left: 8%;  bottom: 20%; width: 16px; height: 16px; color: rgba(33, 194, 144, 0.40); animation-delay: -2.5s; }
 .s1 { right: 13%; top: 7%; width: 16px; height: 16px; color: rgba(201, 168, 76, 0.75); }
